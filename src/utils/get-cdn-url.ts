@@ -5,3 +5,7 @@ export const getImagesUrl = (path: string) => {
 export const getFontsUrl = (path: string) => {
   return `/fonts${path}`;
 };
+
+export const getSoundsUrl = (path: string) => {
+  return `/sounds${path}`;
+};

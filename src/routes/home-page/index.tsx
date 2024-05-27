@@ -1,11 +1,10 @@
-import { useState } from "react";
-import styled from "styled-components";
 import { LinkDoubleClick } from "@/components/link-double-click";
 import { getImagesUrl } from "@/utils/get-cdn-url";
+import { useState } from "react";
+import styled from "styled-components";
 
 export const HomePage = () => {
   const [selected, setSelected] = useState<string | null>(null);
-
   return (
     <Container>
       {links.map((link) => (
@@ -23,7 +22,7 @@ export const HomePage = () => {
   );
 };
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -65,5 +64,10 @@ const links = [
     label: "RVC Website",
     link: "/rvc-website",
     iconURL: `${getImagesUrl("/rvc-website-app-icon.png")}`,
+  },
+  {
+    label: "Pokedex",
+    link: "/pokedex",
+    iconURL: `${getImagesUrl("/pokeball.png")}`,
   },
 ];

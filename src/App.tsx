@@ -1,30 +1,19 @@
-import { Authenticated, ErrorComponent, Refine } from "@refinedev/core";
-import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
-import { dataProvider, liveProvider } from "@refinedev/supabase";
-import routerProvider, {
-  UnsavedChangesNotifier,
-  DocumentTitleHandler,
-  CatchAllNavigate,
-} from "@refinedev/react-router-v6";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Outlet,
-  Navigate,
-} from "react-router-dom";
-import { Toaster } from "react-hot-toast";
-import { CommonLayout } from "@/components/layout";
 import { AboutWindow } from "@/components/about-window";
-import { VideoClubLayout } from "@/components/layout";
+import { CommonLayout, VideoClubLayout } from "@/components/layout";
 import { RVCWebsiteCatalogPage } from "@/components/rvc-website/catalog";
 import { UnsupportedResolutionHandler } from "@/components/unsupported-resolution-handler";
-import { supabaseClient } from "@/supabase-client";
+import { authProvider } from "@/providers/auth-provider";
+import { notificationProvider } from "@/providers/notification-provider";
+import { ThemeProvider } from "@/providers/theme-provider";
 import { HomePage } from "@/routes/home-page";
 import { LoginPage } from "@/routes/login-page";
 import {
-  VideoClubMemberPageEdit,
+  RVCWebsitePageHome,
+  RVCWebsitePageTitleDetails,
+} from "@/routes/rvc-website";
+import {
   VideoClubMemberPageCreate,
+  VideoClubMemberPageEdit,
   VideoClubMemberPageList,
   VideoClubMemberPageShow,
   VideoClubPageBrowseTitles,
@@ -36,16 +25,27 @@ import {
   VideoClubReportPage,
   VideoClubSettingsPage,
 } from "@/routes/video-club";
+import { supabaseClient } from "@/supabase-client";
+import { Authenticated, ErrorComponent, Refine } from "@refinedev/core";
+import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
+import routerProvider, {
+  CatchAllNavigate,
+  DocumentTitleHandler,
+  UnsavedChangesNotifier,
+} from "@refinedev/react-router-v6";
+import { dataProvider, liveProvider } from "@refinedev/supabase";
+import { Toaster } from "react-hot-toast";
 import {
-  RVCWebsitePageHome,
-  RVCWebsitePageTitleDetails,
-} from "@/routes/rvc-website";
-import { ThemeProvider } from "@/providers/theme-provider";
-import { authProvider } from "@/providers/auth-provider";
-import { notificationProvider } from "@/providers/notification-provider";
+  BrowserRouter,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+} from "react-router-dom";
 
 import dayjs from "dayjs";
 import durationPlugin from "dayjs/plugin/duration";
+import { PokdexPageHome } from "./routes/pokedex-page";
 dayjs.extend(durationPlugin);
 
 const App = () => {
@@ -187,7 +187,9 @@ const App = () => {
                       <Route index element={<VideoClubSettingsPage />} />
                     </Route>
                   </Route>
-
+                  <Route path="/pokedex" element={<Outlet />}>
+                    <Route index element={<PokdexPageHome />} />
+                  </Route>
                   <Route path="rvc-website" element={<Outlet />}>
                     <Route index element={<RVCWebsitePageHome />} />
                     <Route

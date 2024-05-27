@@ -92,9 +92,13 @@ const SplashShadow = styled.div`
   width: 100%;
   height: 100%;
 
-  background-image: linear-gradient(45deg, #000 25%, transparent 25%), linear-gradient(-45deg, #000 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #000 75%), linear-gradient(-45deg, transparent 75%, #000 75%);
+  background-image: linear-gradient(45deg, #000 25%, transparent 25%),
+    linear-gradient(-45deg, #000 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #000 75%),
+    linear-gradient(-45deg, transparent 75%, #000 75%);
   background-size: 4px 4px;
-  background-position: bottom right, bottom 2px right 0, bottom 2px right -2px, bottom 0px right 2px;
+  background-position: bottom right, bottom 2px right 0, bottom 2px right -2px,
+    bottom 0px right 2px;
 `;
 
 const Progress = styled(ProgressBar)`
