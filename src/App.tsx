@@ -1,238 +1,163 @@
-import { AboutWindow } from "@/components/about-window";
-import { CommonLayout, VideoClubLayout } from "@/components/layout";
-import { RVCWebsiteCatalogPage } from "@/components/rvc-website/catalog";
-import { UnsupportedResolutionHandler } from "@/components/unsupported-resolution-handler";
-import { authProvider } from "@/providers/auth-provider";
-import { notificationProvider } from "@/providers/notification-provider";
-import { ThemeProvider } from "@/providers/theme-provider";
-import { HomePage } from "@/routes/home-page";
-import { LoginPage } from "@/routes/login-page";
-import {
-  RVCWebsitePageHome,
-  RVCWebsitePageTitleDetails,
-} from "@/routes/rvc-website";
-import {
-  VideoClubMemberPageCreate,
-  VideoClubMemberPageEdit,
-  VideoClubMemberPageList,
-  VideoClubMemberPageShow,
-  VideoClubPageBrowseTitles,
-  VideoClubPageCreateTitle,
-  VideoClubPageShowTitle,
-  VideoClubPageTapeRent,
-  VideoClubPageTapeReturn,
-  VideoClubPageTapeSelectMember,
-  VideoClubReportPage,
-  VideoClubSettingsPage,
-} from "@/routes/video-club";
-import { supabaseClient } from "@/supabase-client";
-import { Authenticated, ErrorComponent, Refine } from "@refinedev/core";
-import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
-import routerProvider, {
-  CatchAllNavigate,
-  DocumentTitleHandler,
-  UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
-import { dataProvider, liveProvider } from "@refinedev/supabase";
-import { Toaster } from "react-hot-toast";
-import {
-  BrowserRouter,
-  Navigate,
-  Outlet,
-  Route,
-  Routes,
-} from "react-router-dom";
+import ReactFullpage from "@fullpage/react-fullpage";
+import { useEffect, useState } from "react";
+import { Anchor, Button, ProgressBar, styleReset } from "react95";
+import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
+// @ts-expect-error - Broken PKG
+import useSound from "use-sound";
 
-import dayjs from "dayjs";
-import durationPlugin from "dayjs/plugin/duration";
-import { PokdexPageHome } from "./routes/pokedex-page";
-dayjs.extend(durationPlugin);
+/* Pick a theme of your choice */
+import original from "react95/dist/themes/original";
+import startupSound from "/sounds/win95.mp3";
+
+/* Original Windows95 font (optional) */
+import { useReward } from "react-rewards";
+import ms_sans_serif from "react95/dist/fonts/ms_sans_serif.woff2";
+import ms_sans_serif_bold from "react95/dist/fonts/ms_sans_serif_bold.woff2";
+import { Default } from "./components/AppBar";
+import Code from "./components/Code";
+import Hero from "./components/Hero";
+
+const GlobalStyles = createGlobalStyle`
+  ${styleReset}
+  @font-face {
+    font-family: 'ms_sans_serif';
+    src: url('${ms_sans_serif}') format('woff2');
+    font-weight: 400;
+    font-style: normal
+  }
+  @font-face {
+    font-family: 'ms_sans_serif';
+    src: url('${ms_sans_serif_bold}') format('woff2');
+    font-weight: bold;
+    font-style: normal
+  }
+  body, input, select, textarea {
+    font-family: 'ms_sans_serif';
+  }
+`;
+
+const Main = styled.main`
+  width: 100%;
+  height: 100%;
+`;
+const Section = styled.section`
+  width: 100%;
+  height: 100%;
+  position: relative;
+  text-align: center;
+`;
 
 const App = () => {
+  const [showSplash, setShowSplash] = useState(true);
+  const [play] = useSound(startupSound);
+  const [opacity, setOpacity] = useState(1);
+  const [hasClicked, setHasClicked] = useState(false);
+
+  const { reward, isAnimating } = useReward("rewardId", "confetti");
+
+  const [percent, setPercent] = useState(0);
+
+  useEffect(() => {
+    if (hasClicked) {
+      const interval = setInterval(() => {
+        setPercent((prev) => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            return 100;
+          }
+          return prev + 1;
+        });
+      }, 50);
+      return () => clearInterval(interval);
+    }
+  }, [hasClicked]);
+
   return (
-    <DevtoolsProvider>
-      <BrowserRouter>
-        <ThemeProvider>
-          <UnsupportedResolutionHandler>
-            <Refine
-              dataProvider={dataProvider(supabaseClient)}
-              liveProvider={liveProvider(supabaseClient)}
-              authProvider={authProvider}
-              routerProvider={routerProvider}
-              notificationProvider={notificationProvider}
-              resources={[
-                {
-                  name: "titles",
-                  list: "/video-club/titles",
-                  show: "/video-club/titles/:id",
-                  create: "/video-club/titles/new",
-                },
-                {
-                  name: "rentals",
-                  list: "/video-club/tapes/rent",
-                  create: "/video-club/tapes/rent/:memberId",
-                  identifier: "rentals-rent",
-                },
-                {
-                  name: "rentals",
-                  list: "/video-club/tapes/return",
-                  create: "/video-club/tapes/return/:memberId",
-                  identifier: "rentals-return",
-                },
-                {
-                  name: "members",
-                  list: "/video-club/members",
-                  show: "/video-club/members/:id",
-                  create: "/video-club/members/new",
-                  edit: "/video-club/members/:id/edit",
-                },
-                {
-                  name: "reports",
-                  list: "/video-club/reports",
-                },
-                {
-                  name: "settings",
-                  list: "/video-club/settings",
-                },
-              ]}
-              options={{
-                liveMode: "auto",
-                syncWithLocation: true,
-                warnWhenUnsavedChanges: true,
+    <div id="app">
+      <GlobalStyles />
+      {showSplash ? (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            backgroundColor: "black",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: "32px",
+            color: "white",
+            opacity: opacity,
+            transition: "opacity 1s ease-in-out",
+          }}
+        >
+          <Main>
+            <ReactFullpage
+              credits={{
+                enabled: false,
               }}
-            >
-              <Routes>
-                <Route
-                  element={
-                    <Authenticated
-                      key="authenticated-routes"
-                      fallback={<CatchAllNavigate to="/login" />}
+              licenseKey="gplv3-license"
+              anchors={["hero", "startup"]}
+              scrollingSpeed={1000}
+              render={({ fullpageApi }) => {
+                return (
+                  <ReactFullpage.Wrapper>
+                    <Section className="section">
+                      <Hero>
+                        <Code style={{ color: "black" }}>
+                          A Windows 95 Pokedex by{" "}
+                          <Anchor
+                            href="https://github.com/nyumat"
+                            className="text-blue"
+                          >
+                            @nyumat
+                          </Anchor>
+                        </Code>
+                        <Button
+                          primary
+                          size="lg"
+                          disabled={isAnimating}
+                          onClick={() => {
+                            setHasClicked(true);
+                            reward();
+                            play();
+                            setTimeout(() => {
+                              fullpageApi.moveSectionDown();
+                              setTimeout(() => {
+                                setOpacity(0);
+                                setTimeout(() => {
+                                  setShowSplash(false);
+                                }, 1000);
+                              }, 4000);
+                            }, 1000);
+                          }}
+                        >
+                          <span id="rewardId" />
+                          Click to Start
+                        </Button>
+                      </Hero>
+                    </Section>
+                    <Section
+                      className="section"
+                      style={{ width: "50%", margin: "0 auto" }}
                     >
-                      <CommonLayout>
-                        <Outlet />
-                      </CommonLayout>
-                    </Authenticated>
-                  }
-                >
-                  <Route index element={<HomePage />} />
-                  <Route
-                    path="/video-club"
-                    element={
-                      <VideoClubLayout>
-                        <Outlet />
-                        <AboutWindow />
-                      </VideoClubLayout>
-                    }
-                  >
-                    <Route
-                      path="titles"
-                      element={
-                        <>
-                          <VideoClubPageBrowseTitles />
-                          <Outlet />
-                        </>
-                      }
-                    >
-                      <Route index />
-                      <Route path=":id" element={<VideoClubPageShowTitle />} />
-                    </Route>
-                    <Route
-                      path="titles/new"
-                      element={<VideoClubPageCreateTitle />}
-                    />
-                    <Route path="tapes" element={<Outlet />}>
-                      <Route path="rent" element={<Outlet />}>
-                        <Route
-                          index
-                          element={
-                            <VideoClubPageTapeSelectMember variant="rent" />
-                          }
-                        />
-                        <Route
-                          path=":memberId"
-                          element={<VideoClubPageTapeRent />}
-                        />
-                      </Route>
-                      <Route path="return" element={<Outlet />}>
-                        <Route
-                          index
-                          element={
-                            <VideoClubPageTapeSelectMember variant="return" />
-                          }
-                        />
-                        <Route
-                          path=":memberId"
-                          element={<VideoClubPageTapeReturn />}
-                        />
-                      </Route>
-                    </Route>
-                    <Route path="members" element={<Outlet />}>
-                      <Route index element={<VideoClubMemberPageList />} />
-                      <Route
-                        path="new"
-                        element={<VideoClubMemberPageCreate />}
-                      />
-                      <Route path=":id" element={<VideoClubMemberPageShow />} />
-                      <Route
-                        path=":id/edit"
-                        element={<VideoClubMemberPageEdit />}
-                      />
-                    </Route>
-
-                    <Route path="reports" element={<Outlet />}>
-                      <Route index element={<VideoClubReportPage />} />
-                    </Route>
-
-                    <Route path="settings" element={<Outlet />}>
-                      <Route index element={<VideoClubSettingsPage />} />
-                    </Route>
-                  </Route>
-                  <Route path="/pokedex" element={<Outlet />}>
-                    <Route index element={<PokdexPageHome />} />
-                  </Route>
-                  <Route path="rvc-website" element={<Outlet />}>
-                    <Route index element={<RVCWebsitePageHome />} />
-                    <Route
-                      path="titles/:titleId"
-                      element={<RVCWebsitePageTitleDetails />}
-                    />
-                    <Route path="catalog" element={<RVCWebsiteCatalogPage />} />
-                    <Route
-                      path="catalog/:catalogLetter"
-                      element={<RVCWebsiteCatalogPage />}
-                    />
-                  </Route>
-                </Route>
-
-                <Route
-                  element={
-                    <Authenticated key="auth-pages" fallback={<Outlet />}>
-                      <Navigate to="/" />
-                    </Authenticated>
-                  }
-                >
-                  <Route path="/login" element={<LoginPage />} />
-                </Route>
-
-                <Route
-                  element={
-                    <Authenticated key="catch-all">
-                      <Outlet />
-                    </Authenticated>
-                  }
-                >
-                  <Route path="*" element={<ErrorComponent />} />
-                </Route>
-              </Routes>
-              <UnsavedChangesNotifier />
-              <DocumentTitleHandler />
-              <Toaster />
-            </Refine>
-          </UnsupportedResolutionHandler>
+                      <h1>Booting up...</h1>
+                      <ProgressBar variant="tile" value={percent} />
+                    </Section>
+                  </ReactFullpage.Wrapper>
+                );
+              }}
+            />
+          </Main>
+        </div>
+      ) : (
+        <ThemeProvider theme={original}>
+          <Default />
         </ThemeProvider>
-        <DevtoolsPanel />
-      </BrowserRouter>
-    </DevtoolsProvider>
+      )}
+    </div>
   );
 };
 
