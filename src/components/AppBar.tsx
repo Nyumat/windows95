@@ -93,6 +93,7 @@ export function Default() {
                 </MenuList>
               )}
             </div>
+            {/* Render Active windows here */}
             <TextInput placeholder="Search..." width={150} />
           </Toolbar>
         </AppBar>
@@ -112,22 +113,6 @@ export function Default() {
               <AppLabel>{link.label}</AppLabel>
             </AppLink>
           ))}
-          {/* <Routes>
-            <Route
-              index
-              path="/"
-              element={
-                <HomePage selected={selected} setSelected={setSelected} />
-              }
-            />
-            <Route path="/pokedex" element={<p>Pokedex</p>} />
-            <Route
-              path="/media-player"
-              element={<MediaPlayer youtubeKey="dQw4w9WgXcQ" />}
-            />
-
-            <Route path="*" element={<p>page ain't found bro.</p>} />
-          </Routes> */}
           <WindowRenderer />
         </AppContainer>
       </main>
