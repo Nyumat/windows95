@@ -1,12 +1,7 @@
 import styled from "styled-components";
 
+import { useEffect } from "react";
 import Clouds from "/images/clouds.jpg";
-
-const HeroImage = styled.img`
-  width: 100%;
-  height: auto;
-  display: block;
-`;
 
 const Wrapper = styled.div`
   background-image: url(${Clouds});
@@ -18,23 +13,6 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-`;
-const BoxWrapper = styled.div`
-  position: relative;
-  display: inline-block;
-  max-width: 480px;
-  width: calc(100% - 2em);
-  overflow: hidden;
-  box-shadow: -0px 10px 28px rgba(0, 0, 0, 0.7);
-  margin-top: -2em;
-
-  @media (max-height: 700px) {
-    max-width: 420px;
-    margin-top: -5em;
-  }
-  @media (max-width: 700px) {
-    margin-top: -5em;
-  }
 `;
 
 const Centered = styled.div`
@@ -85,6 +63,11 @@ const Links = styled.div`
 `;
 
 export default function Hero({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    if (window.location.hash === "#startup") {
+      window.location.hash = "#hero";
+    }
+  }, []);
   return (
     <Wrapper>
       <Centered>

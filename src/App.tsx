@@ -141,10 +141,26 @@ const App = () => {
                     </Section>
                     <Section
                       className="section"
-                      style={{ width: "50%", margin: "0 auto" }}
+                      style={{
+                        width: "100%",
+                        margin: "0 auto",
+                        backgroundImage: "url('/images/plastic.jpg')",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }}
                     >
-                      <h1>Booting up...</h1>
-                      <ProgressBar variant="tile" value={percent} />
+                      <div
+                        style={{
+                          maxWidth: "420px",
+                          margin: "0 auto",
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "15px",
+                        }}
+                      >
+                        <h1>Booting up...</h1>
+                        <ProgressBar variant="tile" value={percent} />
+                      </div>
                     </Section>
                   </ReactFullpage.Wrapper>
                 );
