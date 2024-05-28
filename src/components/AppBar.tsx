@@ -9,17 +9,12 @@ import {
   Toolbar,
 } from "react95";
 
-import {
-  AppContainer,
-  AppIcon,
-  AppLabel,
-  AppLink,
-  links,
-} from "../pages/HomePage";
+import { AppContainer, AppIcon, AppLabel, AppLink } from "../pages/HomePage";
 import { toggleWindow } from "../redux/feats/windows/windowSlice";
 import { useAppDispatch } from "../redux/hooks";
 import { WindowRenderer } from "./Renderer";
 import logoIMG from "/images/windowslogo.png";
+import { links } from "../utils/constants";
 
 export function Default() {
   const [open, setOpen] = useState(false);

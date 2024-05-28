@@ -10,13 +10,7 @@ import {
 import styled from "styled-components";
 import { LinkDoubleClick } from "../components/DoubleClickLink";
 
-export const HomePage = ({
-  selected,
-  setSelected,
-}: {
-  selected: string | null;
-  setSelected: (selected: string | null) => void;
-}) => {
+export const HomePage = () => {
   return (
     <>
       <Draggable>
@@ -85,21 +79,3 @@ export const AppLabel = styled.div`
   color: white;
   text-align: center;
 `;
-
-export const links = [
-  {
-    label: "Pokedex",
-    link: "/pokedex",
-    iconURL: `/images/pokeball.png`,
-  },
-  {
-    label: "Media Player",
-    link: "/media-player",
-    iconURL: `/images/return-tape.png`,
-  },
-  {
-    label: "MS Paint",
-    link: "/paint",
-    iconURL: "/images/paint.png",
-  },
-];
