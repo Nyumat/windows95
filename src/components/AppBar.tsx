@@ -103,7 +103,9 @@ export function Default() {
             <AppLink
               to={link.link}
               key={link.label}
-              onClick={() => setSelected(link.label)}
+              onClick={() => {
+                setSelected(link.label);
+              }}
               selected={selected === link.label}
             >
               <AppIcon src={link.iconURL} alt={link.label} />

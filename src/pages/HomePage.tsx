@@ -97,4 +97,9 @@ export const links = [
     link: "/media-player",
     iconURL: `/images/return-tape.png`,
   },
+  {
+    label: "MS Paint",
+    link: "/paint",
+    iconURL: "/images/paint.png",
+  },
 ];

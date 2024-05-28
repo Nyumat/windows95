@@ -1,12 +1,12 @@
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useAppSelector } from "../redux/hooks";
 import { RootState } from "../redux/store";
 import { About } from "./About";
+import { MediaPlayer } from "./MediaPlayer";
+import { Paint } from "./Paint";
 export const WindowRenderer = () => {
   const openWindows = useAppSelector(
     (state: RootState) => state.windows.openWindows
   );
-  const dispatch = useAppDispatch();
-
   return (
     <div
       style={{
@@ -16,17 +16,9 @@ export const WindowRenderer = () => {
         left: `calc(50% + ${Math.floor(Math.random() * 41) - 120}px)`,
       }}
     >
-      {Object.keys(openWindows).map(
-        (id) =>
-          openWindows["about"] && (
-            // <SomeWindow
-            //   key={id}
-            //   id={id}
-            //   onClose={() => dispatch(toggleWindow(id))}
-            // />
-            <About />
-          )
-      )}
+      {openWindows.about && <About />}
+      {openWindows.mediaplayer && <MediaPlayer youtubeKey="JuYeHPFR3f0" />}
+      {openWindows.paint && <Paint />}
     </div>
   );
 };

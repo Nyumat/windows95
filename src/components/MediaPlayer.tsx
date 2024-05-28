@@ -3,6 +3,8 @@ import Draggable from "react-draggable";
 import ReactPlayer from "react-player/youtube";
 import { Button, Separator, Slider, Window, WindowHeader } from "react95";
 import styled from "styled-components";
+import { useAppDispatch } from "../redux/hooks";
+import { toggleWindow } from "../redux/feats/windows/windowSlice";
 
 type Props = {
   youtubeKey: string;
@@ -16,6 +18,10 @@ export const MediaPlayer = ({ youtubeKey }: Props) => {
     "stop"
   );
 
+  const dispatch = useAppDispatch();
+  const handleClose = () => {
+    dispatch(toggleWindow("mediaplayer"));
+  };
   return (
     <Draggable handle=".handle">
       <div className="player">
@@ -24,8 +30,12 @@ export const MediaPlayer = ({ youtubeKey }: Props) => {
             className="window-title handle"
             style={{ display: "flex" }}
           >
-            <span>react95.exe</span>{" "}
-            <Button style={{ marginLeft: "auto", marginTop: "3px" }} size="sm">
+            <span>mediaPlayer.exe</span>{" "}
+            <Button
+              style={{ marginLeft: "auto", marginTop: "3px" }}
+              size="sm"
+              onClick={handleClose}
+            >
               <span role="img" aria-label="minimize">
                 -
               </span>
@@ -165,7 +175,7 @@ export const MediaPlayer = ({ youtubeKey }: Props) => {
   );
 };
 
-const StyledWindow = styled(Window)``;
+export const StyledWindow = styled(Window)``;
 
 const VideoContainer = styled.div`
   width: 100%;
