@@ -1,70 +1,51 @@
-import { useContext } from "react";
-import { Window, WindowContent, WindowHeader, Button, Anchor } from "react95";
-import { StoreContext } from "../state";
+import { Anchor, Button, Window, WindowContent, WindowHeader } from "react95";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { toggleWindow } from "../redux/feats/windows/windowSlice";
 
-export const AboutModal = () => {
-  const [state, dispatch] = useContext(StoreContext);
-
-  const _handleClose = () => {
-    dispatch({ type: "SET_ABOUT_MODAL", payload: false });
-    dispatch({ type: "SET_HIDE_ABOUT_MODAL_BUTTON", payload: true });
-  };
-
-  const _handleClick = () => {
-    dispatch({ type: "SET_ACTIVE_MODAL", payload: "about" });
-  };
+export function About() {
+  const state = useAppSelector((state) => state.windows);
+  const dispatch = useAppDispatch();
 
   return (
-    <Window
-      onClick={_handleClick}
-      style={{
-        width: 300,
-        maxWidth: "94%",
-        maxHeight: "100%",
-        zIndex: state.activeModal === "about" ? 2 : 1,
-        position: "fixed",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        display: state.aboutModal ? "block" : "none",
-      }}
-    >
-      <WindowHeader className="flex items-center justify-between">
-        <span>About</span>
-        <Button onClick={_handleClose}>
-          <span style={{ fontWeight: "bold", transform: "translateY(-1px)" }}>
-            x
-          </span>
-        </Button>
-      </WindowHeader>
-      <WindowContent>
-        <p className="h1">Poké95</p>
-        <p className="mt2">An open source Windows 95 style Pokédex.</p>
-        <p className="mt2">
-          {"Built with "}{" "}
-          <Anchor href="https://reactjs.org/" target="_blank">
-            React
-          </Anchor>
-          {", "}
-          <Anchor href="https://github.com/arturbien/React95" target="_blank">
-            React95
-          </Anchor>
-          {`, and `}{" "}
-          <Anchor href="https://pokeapi.co/" target="_blank">
-            PokeAPI
-          </Anchor>
-          .
-        </p>
-        <p className="mt2">
-          {"Icons "}{" "}
-          <Anchor
-            href="https://artage.io/en/icon-packs/original-windows-95-icons"
-            target="_blank"
-          >
-            downloaded here.
-          </Anchor>
-        </p>
-      </WindowContent>
-    </Window>
+    <>
+      <Window>
+        <WindowHeader className="flex items-center justify-between">
+          <span>About</span>
+          <Button onClick={() => dispatch(toggleWindow("about"))}>
+            <span style={{ fontWeight: "bold", transform: "translateY(-1px)" }}>
+              x
+            </span>
+          </Button>
+        </WindowHeader>
+        <WindowContent>
+          <p className="h1">Poké95</p>
+          <p className="mt2">An open source Windows 95 style Pokédex.</p>
+          <p className="mt2">
+            {"Built with "}{" "}
+            <Anchor href="https://reactjs.org/" target="_blank">
+              React
+            </Anchor>
+            {", "}
+            <Anchor href="https://github.com/arturbien/React95" target="_blank">
+              React95
+            </Anchor>
+            {`, and `}{" "}
+            <Anchor href="https://pokeapi.co/" target="_blank">
+              PokeAPI
+            </Anchor>
+            .
+          </p>
+          <p className="mt2">
+            {"Icons "}{" "}
+            <Anchor
+              href="https://artage.io/en/icon-packs/original-windows-95-icons"
+              target="_blank"
+            >
+              downloaded here.
+            </Anchor>
+          </p>
+        </WindowContent>
+      </Window>
+    </>
   );
-};
+}

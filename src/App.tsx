@@ -2,7 +2,6 @@ import ReactFullpage from "@fullpage/react-fullpage";
 import { useEffect, useState } from "react";
 import { Anchor, Button, ProgressBar, styleReset } from "react95";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
-// @ts-expect-error - Broken PKG
 import useSound from "use-sound";
 
 /* Pick a theme of your choice */
@@ -49,6 +48,7 @@ const Section = styled.section`
 
 const App = () => {
   const [showSplash, setShowSplash] = useState(true);
+  // @ts-expect-error - TS can't find the type for useSound
   const [play] = useSound(startupSound);
   const [opacity, setOpacity] = useState(1);
   const [hasClicked, setHasClicked] = useState(false);

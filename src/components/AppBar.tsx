@@ -9,21 +9,21 @@ import {
   Toolbar,
 } from "react95";
 
-import { Route, Routes } from "react-router-dom";
 import {
   AppContainer,
   AppIcon,
   AppLabel,
   AppLink,
-  HomePage,
   links,
 } from "../pages/HomePage";
-import { MediaPlayer } from "./MediaPlayer";
+import { toggleWindow } from "../redux/feats/windows/windowSlice";
+import { useAppDispatch } from "../redux/hooks";
+import { WindowRenderer } from "./Renderer";
 import logoIMG from "/images/windowslogo.png";
 
 export function Default() {
   const [open, setOpen] = useState(false);
-
+  const dispatch = useAppDispatch();
   const [selected, setSelected] = useState<string | null>(null);
 
   const handleGitHub = () => {
@@ -70,7 +70,7 @@ export function Default() {
                     </span>
                     GitHub
                   </MenuListItem>
-                  <MenuListItem>
+                  <MenuListItem onClick={() => dispatch(toggleWindow("about"))}>
                     <span role="img" aria-label="📝">
                       <img
                         src="/images/info-bubble.png"
@@ -110,7 +110,7 @@ export function Default() {
               <AppLabel>{link.label}</AppLabel>
             </AppLink>
           ))}
-          <Routes>
+          {/* <Routes>
             <Route
               index
               path="/"
@@ -125,7 +125,8 @@ export function Default() {
             />
 
             <Route path="*" element={<p>page ain't found bro.</p>} />
-          </Routes>
+          </Routes> */}
+          <WindowRenderer />
         </AppContainer>
       </main>
     </div>
