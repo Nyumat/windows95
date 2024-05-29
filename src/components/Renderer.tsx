@@ -3,6 +3,7 @@ import { RootState } from "../redux/store";
 import { About } from "./About";
 import { MediaPlayer } from "./MediaPlayer";
 import { Paint } from "./Paint";
+import { Pokedex } from "./Pokedex";
 export const WindowRenderer = () => {
   const openWindows = useAppSelector(
     (state: RootState) => state.windows.openWindows
@@ -19,6 +20,7 @@ export const WindowRenderer = () => {
       {openWindows.about && <About />}
       {openWindows.mediaplayer && <MediaPlayer youtubeKey="JuYeHPFR3f0" />}
       {openWindows.paint && <Paint />}
+      {openWindows.pokedex && <Pokedex />}
     </div>
   );
 };
