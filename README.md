@@ -1,30 +1,25 @@
-# React + TypeScript + Vite
+# Windows 95 Desktop Simulator 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple Windows 95 desktop simulator. Written in React and TypeScript with Redux and styled-components.
 
-Currently, two official plugins are available:
+![Screenshot](https://i.ibb.co/NKtN5Vd/Screen-Shot-2024-05-28-at-6-08-02-PM.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- Desktop with icons
+- Start Menu with applications
+- Pokédex
+- Media player
+- Original MS Paint
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Development
 
-- Configure the top-level `parserOptions` property like this:
+1. Clone the repository: `git clone <repo_url>`
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+2. Install the dependencies: `npm install`
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+3. Start the development server: `npm run dev`
+
+4. Open [http://localhost:3000](http://localhost:5173) in your browser
+
+## Cheers! 🥂
