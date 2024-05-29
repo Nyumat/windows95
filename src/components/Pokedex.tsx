@@ -36,8 +36,6 @@ export function Pokedex() {
     p.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  console.log(filteredPokemon);
-
   return (
     <>
       <Draggable handle=".handle">
@@ -75,9 +73,8 @@ export function Pokedex() {
               </WindowHeader>
               <WindowContent
                 style={{
-                  //   max height 500px and width 500px
                   maxHeight: "500px",
-                  maxWidth: "500px",
+                  maxWidth: "100%",
                   overflow: "scroll",
                 }}
               >
@@ -89,7 +86,9 @@ export function Pokedex() {
                 {loading ? (
                   <Hourglass />
                 ) : (
-                  <div>
+                  <div
+                    style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}
+                  >
                     {filteredPokemon.map((p, index) => (
                       <div key={index}>
                         <img
